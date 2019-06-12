@@ -12,11 +12,11 @@ var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
     socket.emit('message', 'Vous êtes bien connecté !');
-
-    socket.on('table', function ( data ) {
-        socket.emit( 'null', data );
+    socket.on('table' , function ( data ) {
+        socket.broadcast.emit( 'null', data );
         console.log('emit', 'ok')
     });	
+    
 });
 
 
