@@ -10,13 +10,20 @@ var io = require('socket.io').listen(server);
 //     console.log('Un client est connecté !');
 // });
 
-io.sockets.on('connection', function (socket) {
-    socket.emit('message', 'Vous êtes bien connecté !');
-    socket.on('table' , function ( data ) {
-        socket.broadcast.emit( 'null', data );
-        console.log('emit', 'ok')
-    });	
-    
+
+const Partie = [];
+io.sockets.on('connection', function ( socket ) {
+
+    socket.on( 'playerStart',  function ( data ) {
+        if ( Partie.length === 0 ) {
+            Partie.push(data);
+            socket.emit('owner' , true  );
+            console.log('ok')
+        }else{
+            socket.emit( 'getPartie' , data );
+        }
+    });
+
 });
 
 
