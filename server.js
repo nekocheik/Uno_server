@@ -12,15 +12,17 @@ var io = require('socket.io').listen(server);
 
 
 const Partie = [];
+let game = [] ;
 io.sockets.on('connection', function ( socket ) {
 
-    socket.on( 'playerStart',  function ( data ) {
+    socket.on( 'playerStart',  function ( data , theGame ) {
         if ( Partie.length === 0 ) {
-            Partie.push(data);
-            socket.emit('owner' , true  );
             console.log('ok')
+            Partie.push(data);
+            game = theGame;
+            socket.emit('owner' , true  );
         }else{
-            socket.emit( 'getPartie' , data );
+            socket.emit( 'getPartie' , Partie , game );
         }
     });
 
